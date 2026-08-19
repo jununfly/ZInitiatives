@@ -198,6 +198,71 @@ def check_drift(args: argparse.Namespace) -> None:
         raise SystemExit(1)
 
 
+def closeout_check(args: argparse.Namespace) -> None:
+    """Report terminal roadmap states that require Human-led closeout."""
+    initiatives = {item["id"]: item for item in (load(path) for path in json_files(manifest_directory("initiative")))}
+    plans = [load(path) for path in json_files(manifest_directory("plan"))]
+    items: list[dict[str, Any]] = []
+    workspace_root = args.workspace_root.expanduser().resolve()
+    for plan in sorted(plans, key=lambda item: item["id"]):
+        initiative = initiatives.get(plan["initiativeId"])
+        if initiative is None:
+            continue
+        name = urlparse(initiative["repository"]).path.rstrip("/").rsplit("/", 1)[-1].removesuffix(".git")
+        checkout = workspace_root / name
+        plan_path = checkout / plan["path"]
+        if not plan_path.is_file():
+            items.append({
+                "kind": "warning",
+                "planId": plan["id"],
+                "message": f"checkout or Plan source unavailable: {plan_path}",
+            })
+            continue
+        try:
+            roadmap = load(plan_path)
+        except (OSError, json.JSONDecodeError) as exc:
+            items.append({
+                "kind": "warning",
+                "planId": plan["id"],
+                "message": f"Plan source cannot be read: {plan_path}: {exc}",
+            })
+            continue
+        nodes = roadmap.get("nodes")
+        root = nodes.get("1") if isinstance(nodes, dict) else None
+        statuses = [node.get("status") for node in nodes.values() if isinstance(node, dict)] if isinstance(nodes, dict) else []
+        if not isinstance(root, dict) or not statuses:
+            items.append({
+                "kind": "warning",
+                "planId": plan["id"],
+                "message": f"Plan source has no usable roadmap nodes: {plan_path}",
+            })
+            continue
+        if root.get("status") == "completed" and all(status == "completed" for status in statuses):
+            items.append({
+                "kind": "closeout",
+                "planId": plan["id"],
+                "status": "completed",
+                "source": plan["path"],
+                "message": "Human closeout required: consolidate durable documents, update navigation if needed, then regenerate and validate the Registry.",
+            })
+        elif root.get("status") == "blocked" or "blocked" in statuses:
+            items.append({
+                "kind": "human-decision",
+                "planId": plan["id"],
+                "status": "blocked",
+                "source": plan["path"],
+                "message": "Human decision required before closeout: resolve the blocked roadmap or record the next decision.",
+            })
+    if args.format == "json":
+        print(json.dumps({"status": "reminders" if items else "clear", "items": items}, ensure_ascii=False, indent=2))
+        return
+    if not items:
+        print("closeout: clear")
+        return
+    for item in items:
+        print(f"{item['kind']} {item['planId']}: {item['message']}")
+
+
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(description=__doc__)
     commands = root.add_subparsers(dest="command", required=True)
@@ -252,6 +317,11 @@ def parser() -> argparse.ArgumentParser:
     drift_parser = commands.add_parser("check-drift")
     drift_parser.add_argument("--workspace-root", type=Path, default=ROOT.parent)
     drift_parser.set_defaults(handler=check_drift)
+
+    closeout_parser = commands.add_parser("closeout-check")
+    closeout_parser.add_argument("--workspace-root", type=Path, default=ROOT.parent)
+    closeout_parser.add_argument("--format", choices=("text", "json"), default="text")
+    closeout_parser.set_defaults(handler=closeout_check)
     return root
 
 
