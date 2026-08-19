@@ -23,6 +23,8 @@ scripts/
 
 Registry 仓库本身不保存 Initiative 仓库的 PRD 或 Plan 内容；manifest 只保存远程仓库标识和仓库内相对路径。
 
+Registry 配置可以声明带理由的 `excludedPaths`，用于 Initiative 仓库中的 Registry control-plane 文件，例如全局导航 Plan。排除项不是注册节点，不进入 `Initiative → Spec → Plan` 生成树；validator 校验其 Initiative、路径、理由和与已注册路径的互斥关系，drift checker 将其视为有意排除而不是 warning。
+
 ## 3. 节点模型
 
 ### Initiative
@@ -50,6 +52,8 @@ Plan manifest 至少包含：`id`、`initiativeId`、`specId`、`label`、`path`
 Validator 必须拒绝：重复 ID、未知 node type、Spec 没有合法 Initiative、Plan 没有合法 Spec、越出 `docs/prds/` 或 `docs/plans/` 的路径、损坏的 JSON Plan、生成物与 manifest 不一致和缺失的注册引用。
 
 Validator 应警告：Initiative 没有 Spec、Spec 没有 Plan、仓库存在未登记 PRD/Plan、默认分支变化和已归档 Initiative 仍有新增 Plan。未登记文件默认 warning，已登记但失效的引用是 error。
+
+已声明且通过校验的 `excludedPaths` 不产生未登记文件 warning；删除排除项本身不会删除 Initiative 仓库文件。
 
 ## 6. 版本和演化
 

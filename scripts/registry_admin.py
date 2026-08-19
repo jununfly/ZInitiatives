@@ -165,6 +165,10 @@ def semantic_diff(args: argparse.Namespace) -> None:
 
 
 def check_drift(args: argparse.Namespace) -> None:
+    excluded = {
+        (item["initiativeId"], item["path"])
+        for item in config().get("excludedPaths", [])
+    }
     initiatives = {item["id"]: item for item in (load(path) for path in json_files(manifest_directory("initiative")))}
     specs = [load(path) for path in json_files(manifest_directory("spec"))]
     plans = [load(path) for path in json_files(manifest_directory("plan"))]
@@ -185,11 +189,15 @@ def check_drift(args: argparse.Namespace) -> None:
                 broken += 1
         for path in sorted((checkout / "docs/prds").glob("*.md")) if (checkout / "docs/prds").is_dir() else []:
             relative = path.relative_to(checkout).as_posix()
+            if (initiative_id, relative) in excluded:
+                continue
             if relative not in registered_specs:
                 print(f"UNREGISTERED spec {initiative_id} {relative}")
                 warnings += 1
         for path in sorted((checkout / "docs/plans").glob("*.json")) if (checkout / "docs/plans").is_dir() else []:
             relative = path.relative_to(checkout).as_posix()
+            if (initiative_id, relative) in excluded:
+                continue
             if relative not in registered_plans:
                 print(f"UNREGISTERED plan {initiative_id} {relative}")
                 warnings += 1

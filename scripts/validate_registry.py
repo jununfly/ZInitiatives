@@ -41,6 +41,36 @@ def check_id(value: object, field: str, path: Path, errors: list[str]) -> None:
         fail(errors, f"{path}: {field} must be kebab-case")
 
 
+def validate_exclusions(config: dict, initiative_ids: set[str], registered_paths: set[tuple[str, str]], errors: list[str]) -> set[tuple[str, str]]:
+    exclusions = config.get("excludedPaths", [])
+    if not isinstance(exclusions, list):
+        fail(errors, "registry.config.json: excludedPaths must be an array")
+        return set()
+    seen: set[tuple[str, str]] = set()
+    for index, item in enumerate(exclusions):
+        path = Path(f"registry.config.json: excludedPaths[{index}]")
+        if not isinstance(item, dict):
+            fail(errors, f"{path}: entry must be an object")
+            continue
+        initiative_id = item.get("initiativeId")
+        excluded_path = item.get("path")
+        reason = item.get("reason")
+        if initiative_id not in initiative_ids:
+            fail(errors, f"{path}: unknown initiativeId")
+        if not isinstance(excluded_path, str) or not (excluded_path.startswith("docs/prds/") or excluded_path.startswith("docs/plans/")):
+            fail(errors, f"{path}: path must target docs/prds/* or docs/plans/*")
+        if not isinstance(reason, str) or not reason.strip():
+            fail(errors, f"{path}: reason must be a non-empty string")
+        if isinstance(initiative_id, str) and isinstance(excluded_path, str):
+            key = (initiative_id, excluded_path)
+            if key in seen:
+                fail(errors, f"{path}: duplicate exclusion")
+            seen.add(key)
+            if key in registered_paths:
+                fail(errors, f"{path}: excluded path is already registered")
+    return seen
+
+
 def load_manifests(root: Path, errors: list[str]) -> tuple[list[dict], list[dict], list[dict]]:
     config = load(root / "registry/registry.config.json")
     directories = config.get("manifestDirectories", {})
@@ -189,8 +219,20 @@ def main() -> int:
     args = parser.parse_args()
     errors: list[str] = []
     warnings: list[str] = []
+    config = load(ROOT / "registry/registry.config.json")
     initiatives, specs, plans = load_manifests(ROOT, errors)
     validate_manifests(initiatives, specs, plans, errors)
+    registered_paths = {
+        (item["initiativeId"], item["path"])
+        for item in [*specs, *plans]
+        if isinstance(item.get("initiativeId"), str) and isinstance(item.get("path"), str)
+    }
+    validate_exclusions(
+        config,
+        {item["id"] for item in initiatives if isinstance(item.get("id"), str)},
+        registered_paths,
+        errors,
+    )
     if not errors:
         validate_local_references(initiatives, specs, plans, args.workspace_root, args.roadmap_cli, errors, warnings)
         validate_generated(ROOT, errors)

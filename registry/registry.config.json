@@ -8,5 +8,12 @@
     "plans": "registry/plans"
   },
   "generatedDirectory": "generated",
-  "defaultBranch": "main"
+  "defaultBranch": "main",
+  "excludedPaths": [
+    {
+      "initiativeId": "zagentic",
+      "path": "docs/plans/global-initiative-roadmap.json",
+      "reason": "Registry control-plane navigation"
+    }
+  ]
 }
