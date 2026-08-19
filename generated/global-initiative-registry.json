@@ -1,0 +1,54 @@
+{
+  "$schema": "zj-global-initiative-registry/v1",
+  "generatedFrom": {
+    "repository": "https://github.com/jununfly/ZInitiatives",
+    "commit": "1ff27565c4bcc6db8246d5b54028ff86729e009b"
+  },
+  "initiatives": [
+    {
+      "$schema": "zj-initiative/v1",
+      "id": "zagentic",
+      "label": "ZAgentic",
+      "kind": "product",
+      "lifecycle": "active",
+      "repository": "https://github.com/jununfly/ZAgentic",
+      "defaultBranch": "main",
+      "owner": "jununfly",
+      "specs": [
+        {
+          "id": "zagentic-initiative-registry-skill",
+          "label": "zj-initiative-registry Skill",
+          "kind": "product-spec",
+          "path": "docs/prds/zj-initiative-registry-skill.md",
+          "plans": [
+            {
+              "id": "zagentic-initiative-registry-implementation",
+              "label": "zj-initiative-registry Skill implementation",
+              "path": "docs/plans/zj-initiative-registry-roadmap.json",
+              "engine": "zj-roadmap-driven"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$schema": "zj-initiative/v1",
+      "id": "zinitiatives",
+      "label": "ZInitiatives",
+      "kind": "shared-capability",
+      "lifecycle": "active",
+      "repository": "https://github.com/jununfly/ZInitiatives",
+      "defaultBranch": "main",
+      "owner": "jununfly",
+      "specs": [
+        {
+          "id": "zinitiatives-registry-protocol",
+          "label": "Initiative Registry Protocol",
+          "kind": "architecture-spec",
+          "path": "docs/prds/initiative-registry-protocol.md",
+          "plans": []
+        }
+      ]
+    }
+  ]
+}

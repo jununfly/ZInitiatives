@@ -1,0 +1,12 @@
+{
+  "$schema": "zj-registry-config/v1",
+  "protocolVersion": "zj-global-initiative-registry/v1",
+  "repository": "https://github.com/jununfly/ZInitiatives",
+  "manifestDirectories": {
+    "initiatives": "registry/initiatives",
+    "specs": "registry/specs",
+    "plans": "registry/plans"
+  },
+  "generatedDirectory": "generated",
+  "defaultBranch": "main"
+}

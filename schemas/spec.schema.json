@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zj-initiative-spec/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "id", "initiativeId", "label", "kind", "path"],
+  "properties": {
+    "$schema": { "const": "zj-initiative-spec/v1" },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "initiativeId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "label": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["product-spec", "architecture-spec", "research-spec", "migration-spec"] },
+    "path": { "type": "string", "pattern": "^docs/prds/[^/].*\\.md$" }
+  }
+}

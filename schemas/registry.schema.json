@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zj-global-initiative-registry/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "generatedFrom", "initiatives"],
+  "properties": {
+    "$schema": { "const": "zj-global-initiative-registry/v1" },
+    "generatedFrom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "initiatives": { "type": "array" }
+  }
+}

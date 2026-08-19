@@ -1,0 +1,9 @@
+{
+  "$schema": "zj-initiative-plan/v1",
+  "id": "zagentic-initiative-registry-implementation",
+  "initiativeId": "zagentic",
+  "specId": "zagentic-initiative-registry-skill",
+  "label": "zj-initiative-registry Skill implementation",
+  "path": "docs/plans/zj-initiative-registry-roadmap.json",
+  "engine": "zj-roadmap-driven"
+}

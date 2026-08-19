@@ -1,0 +1,10 @@
+{
+  "$schema": "zj-initiative/v1",
+  "id": "zinitiatives",
+  "label": "ZInitiatives",
+  "kind": "shared-capability",
+  "lifecycle": "active",
+  "repository": "https://github.com/jununfly/ZInitiatives",
+  "defaultBranch": "main",
+  "owner": "jununfly"
+}

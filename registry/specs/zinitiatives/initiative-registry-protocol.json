@@ -1,0 +1,8 @@
+{
+  "$schema": "zj-initiative-spec/v1",
+  "id": "zinitiatives-registry-protocol",
+  "initiativeId": "zinitiatives",
+  "label": "Initiative Registry Protocol",
+  "kind": "architecture-spec",
+  "path": "docs/prds/initiative-registry-protocol.md"
+}
