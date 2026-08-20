@@ -2,7 +2,7 @@
   "$schema": "zj-global-initiative-registry/v1",
   "generatedFrom": {
     "repository": "https://github.com/jununfly/ZInitiatives",
-    "commit": "c2a58042b55f3a3b246871835a61cf616f6856c7"
+    "commit": "c487c64ac8b574095500f3422c3c3b8d564b11a5"
   },
   "initiatives": [
     {

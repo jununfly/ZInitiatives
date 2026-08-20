@@ -1,6 +1,6 @@
 # Global Initiative Registry
 
-Generated from `https://github.com/jununfly/ZInitiatives` at commit `c2a58042b55f3a3b246871835a61cf616f6856c7`.
+Generated from `https://github.com/jununfly/ZInitiatives` at commit `c487c64ac8b574095500f3422c3c3b8d564b11a5`.
 
 ## ZAgentic
 
