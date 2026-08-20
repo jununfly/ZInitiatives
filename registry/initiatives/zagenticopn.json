@@ -1,0 +1,10 @@
+{
+  "$schema": "zj-initiative/v1",
+  "id": "zagenticopn",
+  "label": "ZAgenticOPN",
+  "kind": "product",
+  "lifecycle": "active",
+  "repository": "https://github.com/jununfly/ZAgenticOPN",
+  "defaultBranch": "main",
+  "owner": "jununfly"
+}

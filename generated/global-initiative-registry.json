@@ -2,7 +2,7 @@
   "$schema": "zj-global-initiative-registry/v1",
   "generatedFrom": {
     "repository": "https://github.com/jununfly/ZInitiatives",
-    "commit": "5d0f1f73382bc9c10fde33167e275d10114ec2d1"
+    "commit": "c2a58042b55f3a3b246871835a61cf616f6856c7"
   },
   "initiatives": [
     {
@@ -25,6 +25,32 @@
               "id": "zagentic-initiative-registry-implementation",
               "label": "zj-initiative-registry Skill implementation",
               "path": "docs/plans/zj-initiative-registry-roadmap.json",
+              "engine": "zj-roadmap-driven"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$schema": "zj-initiative/v1",
+      "id": "zagenticopn",
+      "label": "ZAgenticOPN",
+      "kind": "product",
+      "lifecycle": "active",
+      "repository": "https://github.com/jununfly/ZAgenticOPN",
+      "defaultBranch": "main",
+      "owner": "jununfly",
+      "specs": [
+        {
+          "id": "zagenticopn-agent-self-service-collaboration",
+          "label": "Agent self-service collaboration",
+          "kind": "product-spec",
+          "path": "docs/prds/agent-self-service-collaboration.md",
+          "plans": [
+            {
+              "id": "zagenticopn-agent-self-service-collaboration-roadmap",
+              "label": "Agent self-service collaboration roadmap",
+              "path": "docs/plans/agent-self-service-collaboration-roadmap.json",
               "engine": "zj-roadmap-driven"
             }
           ]

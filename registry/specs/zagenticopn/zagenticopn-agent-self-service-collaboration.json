@@ -1,0 +1,8 @@
+{
+  "$schema": "zj-initiative-spec/v1",
+  "id": "zagenticopn-agent-self-service-collaboration",
+  "initiativeId": "zagenticopn",
+  "label": "Agent self-service collaboration",
+  "kind": "product-spec",
+  "path": "docs/prds/agent-self-service-collaboration.md"
+}

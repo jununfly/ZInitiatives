@@ -1,0 +1,9 @@
+{
+  "$schema": "zj-initiative-plan/v1",
+  "id": "zagenticopn-agent-self-service-collaboration-roadmap",
+  "initiativeId": "zagenticopn",
+  "specId": "zagenticopn-agent-self-service-collaboration",
+  "label": "Agent self-service collaboration roadmap",
+  "path": "docs/plans/agent-self-service-collaboration-roadmap.json",
+  "engine": "zj-roadmap-driven"
+}
